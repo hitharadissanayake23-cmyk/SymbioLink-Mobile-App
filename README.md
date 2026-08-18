@@ -1,22 +1,79 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# SYMBIOLINK
 
-# Run and deploy your AI Studio app
+### A B2B Collaboration Platform for Sustainable Partnerships
 
-This contains everything you need to run your app locally.
+SymbioLink is an Android application developed to connect **Enterprises, MSMEs, and Service Providers**. Users can find business opportunities, publish requirements and services, submit proposals, and manage their profiles.
 
-View your app in AI Studio: https://ai.studio/apps/abc7a9c6-eb00-4e4d-8e5e-1f7b81d88458
+The project supports **SDG 17 – Partnerships for the Goals**.
 
-## Run Locally
+## Technologies
 
-**Prerequisites:**  [Android Studio](https://developer.android.com/studio)
+* Android Studio
+* Kotlin
+* Jetpack Compose
+* Material 3
+* Android 15 / API 35
 
+## Main Features
 
-1. Open Android Studio
-2. Select **Open** and choose the directory containing this project
-3. Allow Android Studio to fix any incompatibilities as it imports the project.
-4. Create a file named `.env` in the project directory and set `GEMINI_API_KEY` in that file to your Gemini API key (see `.env.example` for an example)
-5. Remove this line from the app's `build.gradle.kts` file: `signingConfig = signingConfigs.getByName("debugConfig")`
-6. Run the app on an emulator or physical device
-7. If you have already published your app in AI Studio, please [request upload key reset](https://support.google.com/googleplay/android-developer/answer/9842756#zippy=%2Crequest-an-upload-key-reset) in Google Play Console.
+* Login and Registration
+* Dashboard
+* Business Requirements
+* Service Offers
+* Marketplace
+* Proposal Submission
+* My Proposals
+* Analytics
+* Resource Hub
+* Profile and Settings
+* Logout
+
+## Team Contributions
+
+### Hithara Manothmi Dissanayake
+
+**ITBIN-2414-0023**
+
+* Authentication
+* Login & Registration
+* Splash Screen
+* Navigation
+* UI Theme
+
+### Dilmi Lavanya Liyanagunawrdana
+
+**ITBIN-2414-0012**
+
+* Dashboard
+* Requirements
+* Service Offers
+* Marketplace
+* Requirement Details
+
+### Hemshani Adeesa Thennakoon
+
+**ITBIN-2414-0021**
+
+* Proposals
+* Analytics
+* Resource Hub
+* Profile
+* Settings & Logout
+* Testing Support
+
+## How to Run
+
+1. Open the project in **Android Studio**.
+2. Wait for Gradle to finish syncing.
+3. Connect an Android phone or start an emulator.
+4. Click **Run**.
+5. Select the device and run the application.
+
+The application was tested using a **Pixel 7 Android Emulator**.
+
+**Figma Prototype:**
+[SymbioLink Figma Prototype](https://www.figma.com/design/BVJoe8PueEm0VcAUwmIe1x/Untitled?node-id=0-1&t=d54v8fv8fYBPvEhy-1&utm_source=chatgpt.com)
+
+## Conclusion
+
+SymbioLink is a student-developed Android application that provides a simple platform for business collaboration between Enterprises, MSMEs, and Service Providers.
