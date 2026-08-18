@@ -1,0 +1,6 @@
+{
+  "name": "SymbioLink",
+  "description": "Connecting Businesses. Building Partnerships. B2B collaboration platform supporting UN SDG 17.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
