@@ -78,6 +78,7 @@ import kotlinx.coroutines.launch
 /**
  * Student 1: Registration Screen
  * Allows new businesses to create an account with Enterprise, MSME, or Service Provider role.
+ * Refined with professional spacing and a category helper text for better UX.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,6 +86,7 @@ fun RegisterScreen(
     onRegisterSuccess: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
+    // Form State
     var fullName by remember { mutableStateOf("") }
     var businessName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -99,7 +101,7 @@ fun RegisterScreen(
     var location by remember { mutableStateOf("") }
     var agreedToTerms by remember { mutableStateOf(false) }
 
-    // Error states
+    // Validation Error State
     var fullNameError by remember { mutableStateOf<String?>(null) }
     var businessNameError by remember { mutableStateOf<String?>(null) }
     var emailError by remember { mutableStateOf<String?>(null) }
@@ -150,7 +152,7 @@ fun RegisterScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .imePadding()
-                .padding(horizontal = 24.dp, vertical = 12.dp)
+                .padding(horizontal = 24.dp, vertical = 20.dp)
         ) {
             Text(
                 text = "Join SymbioLink to connect with enterprise partners and grow your business.",
@@ -160,19 +162,29 @@ fun RegisterScreen(
                 )
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Account Type Selection
+            // Account Type Header
             Text(
-                text = "Select Account Type *",
+                text = "Account Type *",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = MainText
                 )
             )
+            
+            // Helper Text
+            Text(
+                text = "Select your business category",
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = SecondaryText,
+                    fontSize = 12.sp
+                )
+            )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
+            // Type Selection Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -209,9 +221,9 @@ fun RegisterScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Full Name
+            // Personal Information Fields
             OutlinedTextField(
                 value = fullName,
                 onValueChange = {
@@ -219,7 +231,6 @@ fun RegisterScreen(
                     if (fullNameError != null) fullNameError = null
                 },
                 label = { Text("Full Name *") },
-                placeholder = { Text("e.g. Kasun Fernando") },
                 leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, tint = PrimaryBlue) },
                 isError = fullNameError != null,
                 supportingText = { fullNameError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
@@ -230,14 +241,11 @@ fun RegisterScreen(
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("register_fullname_input")
+                modifier = Modifier.fillMaxWidth().testTag("register_fullname_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Business Name
             OutlinedTextField(
                 value = businessName,
                 onValueChange = {
@@ -245,7 +253,6 @@ fun RegisterScreen(
                     if (businessNameError != null) businessNameError = null
                 },
                 label = { Text("Business / Company Name *") },
-                placeholder = { Text("e.g. GreenTech Solutions") },
                 leadingIcon = { Icon(Icons.Default.Business, contentDescription = null, tint = PrimaryBlue) },
                 isError = businessNameError != null,
                 supportingText = { businessNameError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
@@ -256,14 +263,11 @@ fun RegisterScreen(
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("register_business_input")
+                modifier = Modifier.fillMaxWidth().testTag("register_business_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Business Email
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -271,7 +275,6 @@ fun RegisterScreen(
                     if (emailError != null) emailError = null
                 },
                 label = { Text("Business Email *") },
-                placeholder = { Text("contact@company.lk") },
                 leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = PrimaryBlue) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
                 isError = emailError != null,
@@ -283,14 +286,11 @@ fun RegisterScreen(
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("register_email_input")
+                modifier = Modifier.fillMaxWidth().testTag("register_email_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Phone Number
             OutlinedTextField(
                 value = phone,
                 onValueChange = {
@@ -298,7 +298,6 @@ fun RegisterScreen(
                     if (phoneError != null) phoneError = null
                 },
                 label = { Text("Phone Number *") },
-                placeholder = { Text("+94 77 000 0000") },
                 leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null, tint = PrimaryBlue) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Next),
                 isError = phoneError != null,
@@ -310,23 +309,20 @@ fun RegisterScreen(
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("register_phone_input")
+                modifier = Modifier.fillMaxWidth().testTag("register_phone_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Industry & Location (Optional / Recommended)
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 OutlinedTextField(
                     value = industry,
                     onValueChange = { industry = it },
                     label = { Text("Industry") },
-                    placeholder = { Text("e.g. IT, Agri") },
+                    placeholder = { Text("IT, Agri, etc.") },
                     singleLine = true,
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -341,7 +337,7 @@ fun RegisterScreen(
                     value = location,
                     onValueChange = { location = it },
                     label = { Text("Location") },
-                    placeholder = { Text("e.g. Colombo") },
+                    placeholder = { Text("Colombo") },
                     singleLine = true,
                     shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -353,9 +349,9 @@ fun RegisterScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
-            // Password
+            // Password Section
             OutlinedTextField(
                 value = password,
                 onValueChange = {
@@ -384,14 +380,11 @@ fun RegisterScreen(
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("register_password_input")
+                modifier = Modifier.fillMaxWidth().testTag("register_password_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Confirm Password
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = {
@@ -420,14 +413,12 @@ fun RegisterScreen(
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("register_confirm_password_input")
+                modifier = Modifier.fillMaxWidth().testTag("register_confirm_password_input")
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Terms & Conditions Checkbox
+            // Acceptance Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -467,15 +458,16 @@ fun RegisterScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
-            // Create Account Button
+            // Form Submission
             AppPrimaryButton(
                 text = "Create Account",
                 onClick = {
                     focusManager.clearFocus()
                     var isValid = true
 
+                    // Validation Logic
                     if (fullName.isBlank()) {
                         fullNameError = "Full name is required"
                         isValid = false
@@ -529,7 +521,7 @@ fun RegisterScreen(
                 testTag = "register_submit_btn"
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 
