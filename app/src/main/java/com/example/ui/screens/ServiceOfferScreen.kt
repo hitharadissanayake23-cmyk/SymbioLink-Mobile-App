@@ -1,7 +1,6 @@
 package com.example.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -63,6 +63,7 @@ import kotlinx.coroutines.launch
 /**
  * Student 2: Service Offer Screen
  * Allows MSMEs and Service Providers to publish their business services with 3 pricing tiers.
+ * Updated with helper text and improved spacing for better readability.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,6 +73,7 @@ fun ServiceOfferScreen(
 ) {
     val user = AppState.currentUser
 
+    // Form data states
     var serviceName by remember { mutableStateOf("") }
     var businessName by remember { mutableStateOf(user.businessName) }
     var category by remember { mutableStateOf("IT & Software") }
@@ -81,7 +83,7 @@ fun ServiceOfferScreen(
     var experience by remember { mutableStateOf("3+ Years") }
     var contactEmail by remember { mutableStateOf(user.email) }
 
-    // Service Tiers
+    // Service Tiers states
     var basicPrice by remember { mutableStateOf("") }
     var basicDesc by remember { mutableStateOf("") }
     var standardPrice by remember { mutableStateOf("") }
@@ -91,7 +93,7 @@ fun ServiceOfferScreen(
 
     var categoryExpanded by remember { mutableStateOf(false) }
 
-    // Validation
+    // Validation states
     var serviceNameError by remember { mutableStateOf<String?>(null) }
     var descriptionError by remember { mutableStateOf<String?>(null) }
     var startingPriceError by remember { mutableStateOf<String?>(null) }
@@ -99,14 +101,8 @@ fun ServiceOfferScreen(
     var contactEmailError by remember { mutableStateOf<String?>(null) }
 
     val categories = listOf(
-        "IT & Software",
-        "Design",
-        "Marketing",
-        "Logistics",
-        "Consulting",
-        "Accounting",
-        "Manufacturing",
-        "Other"
+        "IT & Software", "Design", "Marketing", "Logistics",
+        "Consulting", "Accounting", "Manufacturing", "Other"
     )
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -129,16 +125,29 @@ fun ServiceOfferScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .imePadding()
-                .padding(horizontal = 20.dp, vertical = 16.dp)
+                .padding(horizontal = 24.dp, vertical = 20.dp)
         ) {
+            // Screen Header
             Text(
-                text = "Showcase your business services to enterprise clients across Sri Lanka.",
-                style = MaterialTheme.typography.bodyMedium.copy(color = SecondaryText)
+                text = "Publish Your Business Service",
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MainText
+                )
+            )
+            
+            // New Helper Text
+            Text(
+                text = "Describe the service your business can provide",
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = SecondaryText,
+                    fontSize = 14.sp
+                )
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
-            // Service Name
+            // Service Details Group
             OutlinedTextField(
                 value = serviceName,
                 onValueChange = {
@@ -146,30 +155,27 @@ fun ServiceOfferScreen(
                     if (serviceNameError != null) serviceNameError = null
                 },
                 label = { Text("Service Name *") },
-                placeholder = { Text("e.g. Enterprise Cloud & Mobile App Engineering") },
+                placeholder = { Text("e.g. Graphic Design Services") },
                 isError = serviceNameError != null,
                 supportingText = { serviceNameError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
                 singleLine = true,
-                shape = RoundedCornerShape(14.dp),
+                shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("service_name_input")
+                modifier = Modifier.fillMaxWidth().testTag("service_name_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Business Name
             OutlinedTextField(
                 value = businessName,
                 onValueChange = { businessName = it },
-                label = { Text("Business / Studio Name *") },
+                label = { Text("Business Name *") },
                 singleLine = true,
-                shape = RoundedCornerShape(14.dp),
+                shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
                     unfocusedContainerColor = Color.White,
@@ -178,9 +184,8 @@ fun ServiceOfferScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Category Dropdown
             ExposedDropdownMenuBox(
                 expanded = categoryExpanded,
                 onExpandedChange = { categoryExpanded = !categoryExpanded },
@@ -192,15 +197,13 @@ fun ServiceOfferScreen(
                     readOnly = true,
                     label = { Text("Category *") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded) },
-                    shape = RoundedCornerShape(14.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
                         unfocusedContainerColor = Color.White,
                         focusedContainerColor = Color.White
                     ),
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
+                    modifier = Modifier.menuAnchor().fillMaxWidth()
                 )
 
                 ExposedDropdownMenu(
@@ -219,36 +222,36 @@ fun ServiceOfferScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Description
             OutlinedTextField(
                 value = description,
                 onValueChange = {
                     description = it
                     if (descriptionError != null) descriptionError = null
                 },
-                label = { Text("Service Description & Deliverables *") },
-                placeholder = { Text("Describe the capabilities, tools used, and standard deliverables...") },
+                label = { Text("Description *") },
+                placeholder = { Text("Provide details about what you offer...") },
                 isError = descriptionError != null,
                 supportingText = { descriptionError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
                 minLines = 3,
-                maxLines = 5,
-                shape = RoundedCornerShape(14.dp),
+                maxLines = 6,
+                shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
                     unfocusedContainerColor = Color.White,
                     focusedContainerColor = Color.White
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("service_desc_input")
+                modifier = Modifier.fillMaxWidth().testTag("service_desc_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // Starting Price & Delivery Time in a Row
-            Row(modifier = Modifier.fillMaxWidth()) {
+            // Pricing Group
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 OutlinedTextField(
                     value = startingPrice,
                     onValueChange = {
@@ -256,22 +259,18 @@ fun ServiceOfferScreen(
                         if (startingPriceError != null) startingPriceError = null
                     },
                     label = { Text("Starting Price *") },
-                    placeholder = { Text("e.g. LKR 50,000") },
+                    placeholder = { Text("LKR") },
                     isError = startingPriceError != null,
                     supportingText = { startingPriceError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
                     singleLine = true,
-                    shape = RoundedCornerShape(14.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
                         unfocusedContainerColor = Color.White,
                         focusedContainerColor = Color.White
                     ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .testTag("service_price_input")
+                    modifier = Modifier.weight(1f).testTag("service_price_input")
                 )
-
-                Spacer(modifier = Modifier.width(8.dp))
 
                 OutlinedTextField(
                     value = deliveryTime,
@@ -280,33 +279,34 @@ fun ServiceOfferScreen(
                         if (deliveryTimeError != null) deliveryTimeError = null
                     },
                     label = { Text("Delivery Time *") },
-                    placeholder = { Text("e.g. 7 - 14 Days") },
+                    placeholder = { Text("Days") },
                     isError = deliveryTimeError != null,
                     supportingText = { deliveryTimeError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
                     singleLine = true,
-                    shape = RoundedCornerShape(14.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
                         unfocusedContainerColor = Color.White,
                         focusedContainerColor = Color.White
                     ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .testTag("service_delivery_input")
+                    modifier = Modifier.weight(1f).testTag("service_delivery_input")
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Experience & Contact Email
-            Row(modifier = Modifier.fillMaxWidth()) {
+            // Contact Info Group
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 OutlinedTextField(
                     value = experience,
                     onValueChange = { experience = it },
                     label = { Text("Experience") },
-                    placeholder = { Text("e.g. 4+ Years") },
+                    placeholder = { Text("e.g. 5 Years") },
                     singleLine = true,
-                    shape = RoundedCornerShape(14.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
                         unfocusedContainerColor = Color.White,
@@ -314,8 +314,6 @@ fun ServiceOfferScreen(
                     ),
                     modifier = Modifier.weight(1f)
                 )
-
-                Spacer(modifier = Modifier.width(8.dp))
 
                 OutlinedTextField(
                     value = contactEmail,
@@ -328,71 +326,65 @@ fun ServiceOfferScreen(
                     isError = contactEmailError != null,
                     supportingText = { contactEmailError?.let { Text(it, color = MaterialTheme.colorScheme.error) } },
                     singleLine = true,
-                    shape = RoundedCornerShape(14.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
                         unfocusedContainerColor = Color.White,
                         focusedContainerColor = Color.White
                     ),
-                    modifier = Modifier.weight(1.2f)
+                    modifier = Modifier.weight(1.5f)
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Service Tiers Section
+            // Pricing Tiers Group
             Text(
-                text = "Service Tiers & Pricing",
+                text = "Pricing Tiers",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = MainText
                 )
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Basic Tier Card
             TierInputCard(
                 tierName = "Basic Tier",
                 price = basicPrice,
                 onPriceChange = { basicPrice = it },
                 description = basicDesc,
                 onDescChange = { basicDesc = it },
-                defaultPricePlaceholder = "LKR 50,000",
-                defaultDescPlaceholder = "Essential starter package"
+                defaultPricePlaceholder = "Basic Price"
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // Standard Tier Card
             TierInputCard(
                 tierName = "Standard Tier",
                 price = standardPrice,
                 onPriceChange = { standardPrice = it },
                 description = standardDesc,
                 onDescChange = { standardDesc = it },
-                defaultPricePlaceholder = "LKR 120,000",
-                defaultDescPlaceholder = "Standard full implementation"
+                defaultPricePlaceholder = "Standard Price"
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // Premium Tier Card
             TierInputCard(
                 tierName = "Premium Tier",
                 price = premiumPrice,
                 onPriceChange = { premiumPrice = it },
                 description = premiumDesc,
                 onDescChange = { premiumDesc = it },
-                defaultPricePlaceholder = "LKR 250,000",
-                defaultDescPlaceholder = "Enterprise tier with maintenance"
+                defaultPricePlaceholder = "Premium Price"
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-            // Publish Button
+            // Submit Button
             AppPrimaryButton(
-                text = "Publish Service",
+                text = "Publish Service Offer",
                 onClick = {
                     focusManager.clearFocus()
                     var isValid = true
@@ -423,27 +415,27 @@ fun ServiceOfferScreen(
                         val newService = ServiceOffer(
                             id = "srv_${System.currentTimeMillis()}",
                             serviceName = serviceName,
-                            businessName = if (businessName.isNotBlank()) businessName else user.businessName,
+                            businessName = businessName.ifBlank { user.businessName },
                             category = category,
                             description = description,
                             startingPrice = formattedPrice,
                             deliveryTime = deliveryTime,
-                            experience = if (experience.isNotBlank()) experience else "3+ Years",
+                            experience = experience.ifBlank { "3+ Years" },
                             contactEmail = contactEmail,
                             basicTier = ServiceTier(
                                 "Basic",
-                                if (basicPrice.isNotBlank()) basicPrice else formattedPrice,
-                                if (basicDesc.isNotBlank()) basicDesc else "Starter package"
+                                basicPrice.ifBlank { formattedPrice },
+                                basicDesc.ifBlank { "Basic deliverables" }
                             ),
                             standardTier = ServiceTier(
                                 "Standard",
-                                if (standardPrice.isNotBlank()) standardPrice else "LKR 120,000",
-                                if (standardDesc.isNotBlank()) standardDesc else "Standard complete deliverables"
+                                standardPrice.ifBlank { "LKR 120,000" },
+                                standardDesc.ifBlank { "Standard full deliverables" }
                             ),
                             premiumTier = ServiceTier(
                                 "Premium",
-                                if (premiumPrice.isNotBlank()) premiumPrice else "LKR 250,000",
-                                if (premiumDesc.isNotBlank()) premiumDesc else "Enterprise tier with 6 months support"
+                                premiumPrice.ifBlank { "LKR 250,000" },
+                                premiumDesc.ifBlank { "Full enterprise support" }
                             )
                         )
                         AppState.addServiceOffer(newService)
@@ -458,7 +450,7 @@ fun ServiceOfferScreen(
                 testTag = "publish_service_btn"
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
@@ -470,8 +462,7 @@ private fun TierInputCard(
     onPriceChange: (String) -> Unit,
     description: String,
     onDescChange: (String) -> Unit,
-    defaultPricePlaceholder: String,
-    defaultDescPlaceholder: String
+    defaultPricePlaceholder: String
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -480,7 +471,7 @@ private fun TierInputCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
-            modifier = Modifier.padding(14.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Text(
                 text = tierName,
@@ -490,9 +481,12 @@ private fun TierInputCard(
                 )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
                 OutlinedTextField(
                     value = price,
                     onValueChange = onPriceChange,
@@ -503,13 +497,11 @@ private fun TierInputCard(
                     modifier = Modifier.weight(1f)
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
-
                 OutlinedTextField(
                     value = description,
                     onValueChange = onDescChange,
-                    label = { Text("Deliverables") },
-                    placeholder = { Text(defaultDescPlaceholder) },
+                    label = { Text("Details") },
+                    placeholder = { Text("Package details...") },
                     singleLine = true,
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier.weight(1.5f)
