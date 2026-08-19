@@ -1,6 +1,5 @@
 package com.example.ui.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -19,10 +18,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
@@ -70,6 +67,7 @@ import com.example.ui.theme.SecondaryText
 /**
  * Student 2: Marketplace Screen
  * Allows users to search and discover both Enterprise Requirements and MSME Service Offers.
+ * Updated with a specific empty-state message when search results are filtered out.
  */
 @Composable
 fun MarketplaceScreen(
@@ -87,6 +85,7 @@ fun MarketplaceScreen(
     val requirements = AppState.requirements
     val serviceOffers = AppState.serviceOffers
 
+    // Filter logic for Requirements
     val filteredRequirements = requirements.filter { req ->
         val matchesSearch = req.title.contains(searchQuery, ignoreCase = true) ||
                 req.companyName.contains(searchQuery, ignoreCase = true) ||
@@ -97,6 +96,7 @@ fun MarketplaceScreen(
         matchesSearch && matchesCategory
     }
 
+    // Filter logic for Services
     val filteredServices = serviceOffers.filter { srv ->
         val matchesSearch = srv.serviceName.contains(searchQuery, ignoreCase = true) ||
                 srv.businessName.contains(searchQuery, ignoreCase = true) ||
@@ -114,7 +114,7 @@ fun MarketplaceScreen(
             .testTag("marketplace_screen"),
         contentPadding = PaddingValues(bottom = 90.dp)
     ) {
-        // Header Section
+        // Search and Category Header
         item {
             Column(
                 modifier = Modifier
@@ -141,7 +141,7 @@ fun MarketplaceScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Search Bar
+                // Search Input Field
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
@@ -178,7 +178,7 @@ fun MarketplaceScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Filter Chips Row
+                // Horizontal Category Chips
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -211,7 +211,7 @@ fun MarketplaceScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Tabs: Requirements & Services
+                // Toggle Tabs
                 TabRow(
                     selectedTabIndex = selectedTabIndex,
                     containerColor = Color.Transparent,
@@ -259,12 +259,12 @@ fun MarketplaceScreen(
             Spacer(modifier = Modifier.height(12.dp))
         }
 
-        // Requirements Tab Content
+        // List Content for Requirements
         if (selectedTabIndex == 0) {
             if (filteredRequirements.isEmpty()) {
                 item {
                     EmptyStateCard(
-                        message = "No requirements match your criteria.",
+                        message = "Try adjusting your search or category filters to find what you're looking for.",
                         buttonText = "Publish a Requirement",
                         onButtonClick = onNavigateToCreateRequirement
                     )
@@ -282,11 +282,11 @@ fun MarketplaceScreen(
                 }
             }
         } else {
-            // Services Tab Content
+            // List Content for Services
             if (filteredServices.isEmpty()) {
                 item {
                     EmptyStateCard(
-                        message = "No service offers match your criteria.",
+                        message = "No service providers currently match these filters. Check back later!",
                         buttonText = "Publish a Service Offer",
                         onButtonClick = onNavigateToCreateServiceOffer
                     )
@@ -296,9 +296,7 @@ fun MarketplaceScreen(
                     Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp)) {
                         ServiceOfferCard(
                             service = service,
-                            onContactClick = {
-                                // Contact action
-                            }
+                            onContactClick = { /* Handle contact */ }
                         )
                     }
                 }
@@ -325,7 +323,6 @@ fun ServiceOfferCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Category & Rating Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -404,7 +401,6 @@ fun ServiceOfferCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Pricing and Delivery Specs
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -441,7 +437,6 @@ fun ServiceOfferCard(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Pricing Tier Pills
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -503,25 +498,35 @@ fun EmptyStateCard(
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Added specific empty-state text as requested
             Text(
-                text = "No Items Found",
+                text = "No matching opportunities found",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = MainText
                 )
             )
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = message,
-                style = MaterialTheme.typography.bodyMedium.copy(color = SecondaryText)
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = SecondaryText,
+                    fontSize = 14.sp
+                ),
+                modifier = Modifier.padding(horizontal = 8.dp),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = onButtonClick,
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryBlue)
+                colors = ButtonDefaults.buttonColors(containerColor = PrimaryBlue),
+                modifier = Modifier.height(48.dp)
             ) {
-                Text(buttonText)
+                Text(
+                    text = buttonText,
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                )
             }
         }
     }
