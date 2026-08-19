@@ -66,7 +66,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Student 1: Login Screen
- * Improved Login Screen with Material 3, field validation, and consistent brand spacing.
+ * Refined Login Screen with improved brand-consistent spacing and a new tagline.
  */
 @Composable
 fun LoginScreen(
@@ -100,13 +100,13 @@ fun LoginScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .imePadding()
-                .padding(horizontal = 24.dp, vertical = 32.dp),
+                .padding(horizontal = 24.dp, vertical = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Brand Logo
-            SymbioLinkLogo(size = 80.dp)
+            SymbioLinkLogo(size = 72.dp)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -120,18 +120,28 @@ fun LoginScreen(
                 )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Subtitle
+            // Tagline subtitle
             Text(
-                text = "Login to continue with SymbioLink",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = SecondaryText,
-                    fontSize = 16.sp
+                text = "Connect. Collaborate. Grow.",
+                style = MaterialTheme.typography.labelMedium.copy(
+                    color = PrimaryBlue,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 0.5.sp
                 )
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Secondary Instruction Subtitle
+            Text(
+                text = "Login to continue with SymbioLink",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = SecondaryText,
+                    fontSize = 14.sp
+                )
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             // Business Email Field
             OutlinedTextField(
@@ -172,7 +182,7 @@ fun LoginScreen(
                     .testTag("login_email_input")
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Password Field with Show/Hide Toggle
             OutlinedTextField(
@@ -230,7 +240,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Remember Me & Forgot Password
+            // Remember Me & Forgot Password Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -277,16 +287,16 @@ fun LoginScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
-            // Full Width Login Button
+            // Login Button
             AppPrimaryButton(
                 text = "Sign In",
                 onClick = {
                     focusManager.clearFocus()
                     var isValid = true
 
-                    // Validation Logic
+                    // Validation logic
                     if (email.isBlank()) {
                         emailError = "Email is required"
                         isValid = false
@@ -312,9 +322,9 @@ fun LoginScreen(
                 testTag = "login_submit_btn"
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Create Account Navigation
+            // Create Account Link
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
