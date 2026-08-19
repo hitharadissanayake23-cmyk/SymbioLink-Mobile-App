@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,18 +26,15 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Handshake
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -71,6 +69,7 @@ import com.example.ui.theme.SecondaryText
 /**
  * Student 1: Business Profile Screen
  * Provides user profile management, partnership scorecard, and quick navigation.
+ * Updated with a clear "Business Profile" heading and improved spacing between details.
  */
 @Composable
 fun ProfileScreen(
@@ -87,7 +86,7 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             AppTopBar(
-                title = "Business Profile"
+                title = "Profile"
             )
         },
         containerColor = AppBackground
@@ -97,22 +96,35 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .padding(horizontal = 24.dp, vertical = 24.dp)
         ) {
-            // Profile Card
+            // Prominent Screen Heading
+            Text(
+                text = "Business Profile",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MainText,
+                    fontSize = 28.sp
+                )
+            )
+
+            Spacer(modifier = Modifier.height(28.dp))
+
+            // Professional Profile Information Card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .border(1.dp, CardBorder, RoundedCornerShape(20.dp)),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = CardBackground)
+                colors = CardDefaults.cardColors(containerColor = CardBackground),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
-                Column(modifier = Modifier.padding(20.dp)) {
+                Column(modifier = Modifier.padding(24.dp)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        // Avatar initials
+                        // Business Avatar Section
                         val initials = user.businessName.split(" ")
                             .mapNotNull { it.firstOrNull()?.toString() }
                             .take(2)
@@ -121,49 +133,53 @@ fun ProfileScreen(
 
                         Box(
                             modifier = Modifier
-                                .size(64.dp)
+                                .size(76.dp)
                                 .clip(CircleShape)
                                 .background(PrimaryBlue),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = initials,
-                                style = MaterialTheme.typography.titleLarge.copy(
+                                style = MaterialTheme.typography.headlineSmall.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White
                                 )
                             )
                         }
 
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.width(20.dp))
 
                         Column(modifier = Modifier.weight(1f)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
                                     text = user.businessName,
-                                    style = MaterialTheme.typography.titleMedium.copy(
+                                    style = MaterialTheme.typography.titleLarge.copy(
                                         fontWeight = FontWeight.Bold,
-                                        color = MainText
+                                        color = MainText,
+                                        fontSize = 20.sp
                                     )
                                 )
-                                Spacer(modifier = Modifier.width(4.dp))
+                                Spacer(modifier = Modifier.width(6.dp))
                                 Icon(
                                     imageVector = Icons.Default.Verified,
                                     contentDescription = "Verified Business",
                                     tint = PrimaryBlue,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(20.dp)
                                 )
                             }
                             Text(
                                 text = user.fullName,
-                                style = MaterialTheme.typography.bodyMedium.copy(color = SecondaryText)
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = SecondaryText,
+                                    fontSize = 15.sp
+                                )
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
                             Box(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(if (user.accountType == AccountType.MSME) PrimaryGreen.copy(alpha = 0.15f) else PrimaryBlue.copy(alpha = 0.15f))
-                                    .padding(horizontal = 8.dp, vertical = 2.dp)
+                                    .background(if (user.accountType == AccountType.MSME) PrimaryGreen.copy(alpha = 0.12f) else PrimaryBlue.copy(alpha = 0.12f))
+                                    .padding(horizontal = 10.dp, vertical = 4.dp)
                             ) {
                                 Text(
                                     text = if (user.accountType == AccountType.MSME) "Verified MSME Provider" else "Enterprise Partner",
@@ -176,91 +192,83 @@ fun ProfileScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
+                    // Business Description Section
+                    Text(
+                        text = "About Business",
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = MainText,
+                            fontSize = 15.sp
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = user.about,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            color = MainText,
-                            lineHeight = 18.sp
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MainText.copy(alpha = 0.8f),
+                            lineHeight = 22.sp
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.LocationOn,
-                            contentDescription = null,
-                            tint = SecondaryText,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = user.location,
-                            style = MaterialTheme.typography.bodySmall.copy(color = SecondaryText)
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            imageVector = Icons.Default.Email,
-                            contentDescription = null,
-                            tint = SecondaryText,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = user.email,
-                            style = MaterialTheme.typography.bodySmall.copy(color = SecondaryText)
-                        )
-                    }
+                    // Contact & Location Details with improved spacing
+                    ProfileDetailRow(icon = Icons.Default.LocationOn, label = user.location)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    ProfileDetailRow(icon = Icons.Default.Email, label = user.email)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    ProfileDetailRow(icon = Icons.Default.Phone, label = user.phone)
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
-            // Quick Stats Grid
-            Row(modifier = Modifier.fillMaxWidth()) {
+            // Quick Stats Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 ProfileStatCard(
-                    title = "Requirements",
+                    title = "Reqs",
                     count = "${AppState.currentUser.activeRequirementsCount}",
                     color = PrimaryBlue,
                     modifier = Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
                 ProfileStatCard(
                     title = "Services",
                     count = "${AppState.currentUser.serviceOffersCount}",
                     color = PrimaryGreen,
                     modifier = Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
                 ProfileStatCard(
                     title = "Proposals",
                     count = "${AppState.currentUser.submittedProposalsCount}",
                     color = AccentOrange,
                     modifier = Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
                 ProfileStatCard(
-                    title = "Partnerships",
+                    title = "Partners",
                     count = "${AppState.currentUser.partnershipsCount}",
                     color = Color(0xFF673AB7),
                     modifier = Modifier.weight(1f)
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-            // Action Items Section
+            // Account Actions Header
             Text(
-                text = "Account & Actions",
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MainText
+                text = "Account Management",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MainText,
+                    fontSize = 19.sp
                 )
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
             Card(
                 modifier = Modifier
@@ -271,7 +279,7 @@ fun ProfileScreen(
             ) {
                 Column {
                     ProfileMenuRow(
-                        title = "Edit Profile & Business Info",
+                        title = "Edit Profile Info",
                         icon = Icons.Default.Edit,
                         iconColor = PrimaryBlue,
                         onClick = onNavigateToEditProfile,
@@ -279,7 +287,7 @@ fun ProfileScreen(
                     )
                     ProfileMenuDivider()
                     ProfileMenuRow(
-                        title = "My Published Requirements",
+                        title = "My Requirements",
                         icon = Icons.Default.Assignment,
                         iconColor = PrimaryBlue,
                         onClick = onNavigateToMyRequirements,
@@ -287,7 +295,7 @@ fun ProfileScreen(
                     )
                     ProfileMenuDivider()
                     ProfileMenuRow(
-                        title = "My Submitted Proposals",
+                        title = "My Proposals",
                         icon = Icons.Default.ReceiptLong,
                         iconColor = PrimaryGreen,
                         onClick = onNavigateToMyProposals,
@@ -303,7 +311,7 @@ fun ProfileScreen(
                     )
                     ProfileMenuDivider()
                     ProfileMenuRow(
-                        title = "App Settings & SDG Info",
+                        title = "Settings & App Info",
                         icon = Icons.Default.Settings,
                         iconColor = SecondaryText,
                         onClick = onNavigateToSettings,
@@ -312,48 +320,49 @@ fun ProfileScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
-            // Logout Button
+            // Logout Action Button
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, Color(0xFFFFEBEE), RoundedCornerShape(16.dp))
                     .clickable { showLogoutDialog = true }
                     .testTag("btn_logout"),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8F8))
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF5F5)),
+                border = BorderStroke(1.dp, Color(0xFFFFEBEE))
             ) {
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(18.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         imageVector = Icons.Default.ExitToApp,
-                        contentDescription = null,
+                        contentDescription = "Logout",
                         tint = Color(0xFFD32F2F),
                         modifier = Modifier.size(24.dp)
                     )
-                    Spacer(modifier = Modifier.width(14.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        text = "Sign Out",
+                        text = "Sign Out from SymbioLink",
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFFD32F2F)
+                            color = Color(0xFFD32F2F),
+                            fontSize = 15.sp
                         ),
                         modifier = Modifier.weight(1f)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(40.dp))
         }
     }
 
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
-            title = { Text("Sign Out of SymbioLink", fontWeight = FontWeight.Bold) },
+            title = { Text("Confirm Sign Out", fontWeight = FontWeight.Bold) },
             text = { Text("Are you sure you want to sign out from your business account?") },
             confirmButton = {
                 TextButton(
@@ -378,6 +387,29 @@ fun ProfileScreen(
 }
 
 @Composable
+fun ProfileDetailRow(icon: ImageVector, label: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = PrimaryBlue,
+            modifier = Modifier.size(20.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = SecondaryText,
+                fontSize = 15.sp
+            )
+        )
+    }
+}
+
+@Composable
 fun ProfileStatCard(
     title: String,
     count: String,
@@ -390,23 +422,24 @@ fun ProfileStatCard(
         colors = CardDefaults.cardColors(containerColor = CardBackground)
     ) {
         Column(
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 6.dp),
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = count,
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.ExtraBold,
-                    color = color
+                    color = color,
+                    fontSize = 19.sp
                 )
             )
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodySmall.copy(
-                    fontSize = 10.sp,
+                    fontSize = 11.sp,
                     color = SecondaryText,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Bold
                 ),
                 maxLines = 1
             )
@@ -426,13 +459,13 @@ fun ProfileMenuRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 14.dp)
+            .padding(horizontal = 18.dp, vertical = 18.dp)
             .testTag(testTag),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(36.dp)
+                .size(42.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(iconColor.copy(alpha = 0.12f)),
             contentAlignment = Alignment.Center
@@ -441,22 +474,23 @@ fun ProfileMenuRow(
                 imageVector = icon,
                 contentDescription = null,
                 tint = iconColor,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(22.dp)
             )
         }
-        Spacer(modifier = Modifier.width(14.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = title,
             style = MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.SemiBold,
-                color = MainText
+                color = MainText,
+                fontSize = 15.sp
             ),
             modifier = Modifier.weight(1f)
         )
         Icon(
             imageVector = Icons.Default.ChevronRight,
             contentDescription = null,
-            tint = SecondaryText.copy(alpha = 0.6f),
+            tint = SecondaryText.copy(alpha = 0.4f),
             modifier = Modifier.size(20.dp)
         )
     }
@@ -467,8 +501,8 @@ fun ProfileMenuDivider() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 18.dp)
             .height(1.dp)
-            .background(CardBorder.copy(alpha = 0.5f))
+            .background(CardBorder.copy(alpha = 0.3f))
     )
 }
