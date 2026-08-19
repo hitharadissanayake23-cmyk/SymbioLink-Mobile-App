@@ -19,20 +19,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AddBusiness
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Assignment
-import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Handshake
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,20 +43,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.AppState
-import com.example.model.Requirement
 import com.example.ui.components.OpportunityCard
 import com.example.ui.components.StatCard
 import com.example.ui.theme.AppBackground
-import com.example.ui.theme.DarkBlue
 import com.example.ui.theme.MainText
 import com.example.ui.theme.PrimaryBlue
 import com.example.ui.theme.PrimaryGreen
-import com.example.ui.theme.SecondaryGreen
 import com.example.ui.theme.SecondaryText
 
 /**
  * Student 2: Dashboard Screen
- * Main overview displaying partnership score, quick action cards, recent opportunities, and activity metrics.
+ * Main overview displaying partnership score, quick action cards, and activity metrics.
+ * Refined with improved section spacing and a distinct "Recent Opportunities" heading.
  */
 @Composable
 fun DashboardScreen(
@@ -80,9 +74,9 @@ fun DashboardScreen(
             .fillMaxSize()
             .background(AppBackground)
             .testTag("dashboard_screen"),
-        contentPadding = PaddingValues(bottom = 90.dp)
+        contentPadding = PaddingValues(bottom = 100.dp)
     ) {
-        // Dashboard Header with subtle Blue-Green Gradient
+        // Dashboard Welcome Header Section
         item {
             Box(
                 modifier = Modifier
@@ -95,9 +89,9 @@ fun DashboardScreen(
                                 Color(0xFF1E6E38)  // Forest Green
                             )
                         ),
-                        shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
+                        shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
                     )
-                    .padding(horizontal = 20.dp, vertical = 24.dp)
+                    .padding(horizontal = 24.dp, vertical = 32.dp)
             ) {
                 Column {
                     Row(
@@ -118,21 +112,21 @@ fun DashboardScreen(
                                 style = MaterialTheme.typography.headlineMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
-                                    fontSize = 22.sp
+                                    fontSize = 26.sp
                                 )
                             )
                         }
 
-                        // Notification / Avatar indicator
+                        // User Avatar
                         Box(
                             modifier = Modifier
-                                .size(44.dp)
+                                .size(56.dp)
                                 .background(Color.White.copy(alpha = 0.2f), shape = CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = user.fullName.take(2).uppercase(),
-                                style = MaterialTheme.typography.titleMedium.copy(
+                                style = MaterialTheme.typography.titleLarge.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White
                                 )
@@ -140,11 +134,10 @@ fun DashboardScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    // Business Info Tag
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = user.businessName,
                             style = MaterialTheme.typography.bodyMedium.copy(
@@ -155,10 +148,7 @@ fun DashboardScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Box(
                             modifier = Modifier
-                                .background(
-                                    color = Color(0xFF2E7D32),
-                                    shape = RoundedCornerShape(6.dp)
-                                )
+                                .background(Color(0xFF2E7D32), shape = RoundedCornerShape(6.dp))
                                 .padding(horizontal = 8.dp, vertical = 2.dp)
                         ) {
                             Text(
@@ -172,20 +162,16 @@ fun DashboardScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(28.dp))
 
-                    // Partnership Score Card
+                    // Partnership Score Section
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(18.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White.copy(alpha = 0.95f)
-                        ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
+                        Column(modifier = Modifier.padding(20.dp)) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -194,7 +180,7 @@ fun DashboardScreen(
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Box(
                                         modifier = Modifier
-                                            .size(36.dp)
+                                            .size(42.dp)
                                             .background(Color(0xFFE8F5E9), shape = CircleShape),
                                         contentAlignment = Alignment.Center
                                     ) {
@@ -202,10 +188,10 @@ fun DashboardScreen(
                                             imageVector = Icons.Default.Handshake,
                                             contentDescription = null,
                                             tint = PrimaryGreen,
-                                            modifier = Modifier.size(20.dp)
+                                            modifier = Modifier.size(24.dp)
                                         )
                                     }
-                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Spacer(modifier = Modifier.width(12.dp))
                                     Column {
                                         Text(
                                             text = "Partnership Score",
@@ -215,15 +201,11 @@ fun DashboardScreen(
                                             )
                                         )
                                         Text(
-                                            text = "SDG 17 Collaboration Readiness",
-                                            style = MaterialTheme.typography.bodySmall.copy(
-                                                color = SecondaryText,
-                                                fontSize = 11.sp
-                                            )
+                                            text = "Ready for SDG 17 partnerships",
+                                            style = MaterialTheme.typography.bodySmall.copy(color = SecondaryText)
                                         )
                                     }
                                 }
-
                                 Text(
                                     text = "${user.partnershipScore}%",
                                     style = MaterialTheme.typography.headlineSmall.copy(
@@ -232,26 +214,19 @@ fun DashboardScreen(
                                     )
                                 )
                             }
-
-                            Spacer(modifier = Modifier.height(10.dp))
-
+                            Spacer(modifier = Modifier.height(14.dp))
                             LinearProgressIndicator(
                                 progress = { user.partnershipScore / 100f },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(8.dp),
+                                modifier = Modifier.fillMaxWidth().height(8.dp),
                                 color = PrimaryGreen,
                                 trackColor = Color(0xFFDCFCE7),
                             )
-
-                            Spacer(modifier = Modifier.height(6.dp))
-
+                            Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                text = "Your profile is ready for new high-value opportunities",
+                                text = "Your profile is optimized for new collaborations",
                                 style = MaterialTheme.typography.bodySmall.copy(
                                     color = PrimaryBlue,
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 12.sp
+                                    fontWeight = FontWeight.Medium
                                 )
                             )
                         }
@@ -260,26 +235,22 @@ fun DashboardScreen(
             }
         }
 
-        // Quick Action Grid Section
+        // Quick Actions Section
         item {
-            Spacer(modifier = Modifier.height(20.dp))
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp)
-            ) {
+            Spacer(modifier = Modifier.height(36.dp))
+            Column(modifier = Modifier.padding(horizontal = 24.dp)) {
                 Text(
                     text = "Quick Actions",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.ExtraBold,
                         color = MainText,
-                        fontSize = 17.sp
+                        fontSize = 20.sp
                     )
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     QuickActionCard(
                         title = "Browse\nOpportunities",
@@ -287,26 +258,21 @@ fun DashboardScreen(
                         iconBg = Color(0xFFE3F2FD),
                         iconTint = PrimaryBlue,
                         modifier = Modifier.weight(1f),
-                        onClick = onNavigateToMarketplace,
-                        testTag = "quick_action_browse"
+                        onClick = onNavigateToMarketplace
                     )
-
                     QuickActionCard(
                         title = "Create\nRequirement",
                         icon = Icons.Default.AddBusiness,
                         iconBg = Color(0xFFE8F5E9),
                         iconTint = PrimaryGreen,
                         modifier = Modifier.weight(1f),
-                        onClick = onNavigateToCreateRequirement,
-                        testTag = "quick_action_create_req"
+                        onClick = onNavigateToCreateRequirement
                     )
                 }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     QuickActionCard(
                         title = "Create\nService Offer",
@@ -314,43 +280,36 @@ fun DashboardScreen(
                         iconBg = Color(0xFFFFF3E0),
                         iconTint = Color(0xFFE65100),
                         modifier = Modifier.weight(1f),
-                        onClick = onNavigateToCreateServiceOffer,
-                        testTag = "quick_action_create_offer"
+                        onClick = onNavigateToCreateServiceOffer
                     )
-
                     QuickActionCard(
                         title = "My\nProposals",
                         icon = Icons.Default.Description,
                         iconBg = Color(0xFFF3E5F5),
                         iconTint = Color(0xFF7B1FA2),
                         modifier = Modifier.weight(1f),
-                        onClick = onNavigateToMyProposals,
-                        testTag = "quick_action_proposals"
+                        onClick = onNavigateToMyProposals
                     )
                 }
             }
         }
 
-        // Activity Overview Cards
+        // Stats Overview Section
         item {
-            Spacer(modifier = Modifier.height(24.dp))
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp)
-            ) {
+            Spacer(modifier = Modifier.height(36.dp))
+            Column(modifier = Modifier.padding(horizontal = 24.dp)) {
                 Text(
                     text = "Activity Overview",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.ExtraBold,
                         color = MainText,
-                        fontSize = 17.sp
+                        fontSize = 20.sp
                     )
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     StatCard(
                         title = "Active Requirements",
@@ -358,26 +317,21 @@ fun DashboardScreen(
                         icon = Icons.Default.Assignment,
                         iconColor = PrimaryBlue,
                         iconBgColor = Color(0xFFE3F2FD),
-                        modifier = Modifier.weight(1f),
-                        testTag = "stat_active_reqs"
+                        modifier = Modifier.weight(1f)
                     )
-
                     StatCard(
                         title = "Service Offers",
                         value = "${user.serviceOffersCount}",
                         icon = Icons.Default.Work,
                         iconColor = PrimaryGreen,
                         iconBgColor = Color(0xFFE8F5E9),
-                        modifier = Modifier.weight(1f),
-                        testTag = "stat_service_offers"
+                        modifier = Modifier.weight(1f)
                     )
                 }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
+                Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     StatCard(
                         title = "Submitted Proposals",
@@ -385,41 +339,55 @@ fun DashboardScreen(
                         icon = Icons.Default.Description,
                         iconColor = Color(0xFFE65100),
                         iconBgColor = Color(0xFFFFF3E0),
-                        modifier = Modifier.weight(1f),
-                        testTag = "stat_submitted_proposals"
+                        modifier = Modifier.weight(1f)
                     )
-
                     StatCard(
                         title = "Partnerships",
                         value = "${user.partnershipsCount}",
                         icon = Icons.Default.Handshake,
                         iconColor = Color(0xFF2E7D32),
                         iconBgColor = Color(0xFFE8F5E9),
-                        modifier = Modifier.weight(1f),
-                        testTag = "stat_partnerships"
+                        modifier = Modifier.weight(1f)
                     )
                 }
             }
         }
 
-        // Recent Opportunities Section
+        // Recent Opportunities Heading
         item {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Bottom
             ) {
-                Text(
-                    text = "Recent Opportunities",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MainText,
-                        fontSize = 17.sp
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.TrendingUp,
+                            contentDescription = null,
+                            tint = PrimaryBlue,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Recent Opportunities",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MainText,
+                                fontSize = 20.sp
+                            )
+                        )
+                    }
+                    Text(
+                        text = "Tailored matches for your business profile",
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            color = SecondaryText
+                        )
                     )
-                )
+                }
 
                 Text(
                     text = "View All",
@@ -434,12 +402,12 @@ fun DashboardScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Display top 3 recent opportunities
+        // Opportunity List
         items(requirements.take(3)) { requirement ->
-            Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp)) {
+            Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
                 OpportunityCard(
                     requirement = requirement,
                     onClick = { onNavigateToRequirementDetails(requirement.id) },
@@ -458,13 +426,10 @@ private fun QuickActionCard(
     iconBg: Color,
     iconTint: Color,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    testTag: String = "quick_action_card"
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier
-            .clickable { onClick() }
-            .testTag(testTag),
+        modifier = modifier.clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
