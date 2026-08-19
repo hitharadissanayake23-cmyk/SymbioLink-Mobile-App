@@ -1,10 +1,8 @@
 package com.example.ui.screens
 
 import android.util.Patterns
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -68,23 +66,26 @@ import kotlinx.coroutines.launch
 
 /**
  * Student 1: Login Screen
- * Implements business authentication with field validation, remember me, forgot password, and registration link.
+ * Improved Login Screen with Material 3, field validation, and consistent brand spacing.
  */
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
-    var email by remember { mutableStateOf("kasun@greentech.lk") }
-    var password by remember { mutableStateOf("password123") }
+    // State for user input
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var rememberMe by remember { mutableStateOf(AppState.rememberMe) }
 
+    // Validation state
     var emailError by remember { mutableStateOf<String?>(null) }
     var passwordError by remember { mutableStateOf<String?>(null) }
+    
+    // UI states
     var showForgotPasswordDialog by remember { mutableStateOf(false) }
     var forgotEmailInput by remember { mutableStateOf("") }
-
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
@@ -99,38 +100,40 @@ fun LoginScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .imePadding()
-                .padding(horizontal = 24.dp, vertical = 28.dp),
+                .padding(horizontal = 24.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Logo & Header
-            SymbioLinkLogo(size = 72.dp)
+            // Brand Logo
+            SymbioLinkLogo(size = 80.dp)
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
+            // Heading
             Text(
                 text = "Welcome Back",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     color = MainText,
-                    fontSize = 26.sp
+                    fontSize = 28.sp
                 )
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
+            // Subtitle
             Text(
-                text = "Sign in to continue building partnerships",
-                style = MaterialTheme.typography.bodyMedium.copy(
+                text = "Login to continue with SymbioLink",
+                style = MaterialTheme.typography.bodyLarge.copy(
                     color = SecondaryText,
-                    fontSize = 14.sp
+                    fontSize = 16.sp
                 )
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
-            // Email Input Field
+            // Business Email Field
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -138,7 +141,7 @@ fun LoginScreen(
                     if (emailError != null) emailError = null
                 },
                 label = { Text("Business Email") },
-                placeholder = { Text("example@company.com") },
+                placeholder = { Text("name@company.com") },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Email,
@@ -157,7 +160,7 @@ fun LoginScreen(
                     imeAction = ImeAction.Next
                 ),
                 singleLine = true,
-                shape = RoundedCornerShape(14.dp),
+                shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
                     focusedLabelColor = PrimaryBlue,
@@ -169,9 +172,9 @@ fun LoginScreen(
                     .testTag("login_email_input")
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Password Input Field
+            // Password Field with Show/Hide Toggle
             OutlinedTextField(
                 value = password,
                 onValueChange = {
@@ -213,7 +216,7 @@ fun LoginScreen(
                     onDone = { focusManager.clearFocus() }
                 ),
                 singleLine = true,
-                shape = RoundedCornerShape(14.dp),
+                shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
                     focusedLabelColor = PrimaryBlue,
@@ -225,9 +228,9 @@ fun LoginScreen(
                     .testTag("login_password_input")
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            // Remember Me & Forgot Password Row
+            // Remember Me & Forgot Password
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -246,7 +249,7 @@ fun LoginScreen(
                         colors = CheckboxDefaults.colors(
                             checkedColor = PrimaryBlue
                         ),
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
@@ -274,17 +277,18 @@ fun LoginScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Login Button
+            // Full Width Login Button
             AppPrimaryButton(
                 text = "Sign In",
                 onClick = {
                     focusManager.clearFocus()
                     var isValid = true
 
+                    // Validation Logic
                     if (email.isBlank()) {
-                        emailError = "Email cannot be empty"
+                        emailError = "Email is required"
                         isValid = false
                     } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         emailError = "Please enter a valid email format"
@@ -292,7 +296,7 @@ fun LoginScreen(
                     }
 
                     if (password.isBlank()) {
-                        passwordError = "Password cannot be empty"
+                        passwordError = "Password is required"
                         isValid = false
                     }
 
@@ -308,12 +312,13 @@ fun LoginScreen(
                 testTag = "login_submit_btn"
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-            // Register Account Navigation Link
+            // Create Account Navigation
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = "New to SymbioLink? ",
@@ -352,12 +357,13 @@ fun LoginScreen(
                         text = "Enter your business email to receive reset instructions.",
                         style = MaterialTheme.typography.bodyMedium.copy(color = SecondaryText)
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     OutlinedTextField(
                         value = forgotEmailInput,
                         onValueChange = { forgotEmailInput = it },
                         label = { Text("Email") },
                         singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
