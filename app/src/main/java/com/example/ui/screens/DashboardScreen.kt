@@ -23,6 +23,7 @@ import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AddBusiness
 import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Handshake
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Work
@@ -54,7 +55,7 @@ import com.example.ui.theme.SecondaryText
 /**
  * Student 2: Dashboard Screen
  * Main overview displaying partnership score, quick action cards, and activity metrics.
- * Refined with improved section spacing and a distinct "Recent Opportunities" heading.
+ * Refined with a clear Quick Actions heading and optimized card spacing for better UX.
  */
 @Composable
 fun DashboardScreen(
@@ -237,17 +238,28 @@ fun DashboardScreen(
 
         // Quick Actions Section
         item {
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                Text(
-                    text = "Quick Actions",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.ExtraBold,
-                        color = MainText,
-                        fontSize = 20.sp
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.GridView,
+                        contentDescription = null,
+                        tint = PrimaryBlue,
+                        modifier = Modifier.size(24.dp)
                     )
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = "Quick Actions",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            color = MainText,
+                            fontSize = 20.sp
+                        )
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(20.dp))
+                
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -269,7 +281,9 @@ fun DashboardScreen(
                         onClick = onNavigateToCreateRequirement
                     )
                 }
+                
                 Spacer(modifier = Modifier.height(16.dp))
+                
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
